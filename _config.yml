@@ -15,8 +15,7 @@ markdown: kramdown
 remote_theme: mmistakes/minimal-mistakes
 
 # Favicon
-# We'll add this after - placeholder for now
-# favicon: "/assets/images/favicon.ico"
+favicon: "/assets/images/favicon.ico"
 
 # Outputting
 permalink: /:categories/:title/
