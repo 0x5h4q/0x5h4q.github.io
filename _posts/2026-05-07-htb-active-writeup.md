@@ -3,9 +3,11 @@ title: "HTB Active — My First Real Active Directory Box"
 date: 2026-05-07
 categories: [HackTheBox, Active Directory]
 tags: [htb, active-directory, smb, gpp, kerberoasting, windows]
+layout: single
+classes: wide
+author_profile: true
 ---
 
-# HTB Active — My First Real Active Directory Box
 
 **Difficulty:** Easy  
 **OS:** Windows  
@@ -55,7 +57,7 @@ The domain is `active.htb` — add that to `/etc/hosts` first.
 ```bash
 echo "10.129.34.50 active.htb" | sudo tee -a /etc/hosts
 ```
-Sometimes i prefer nano...just because..
+Sometimes i prefer nano...just because
 ---
 
 ### SMB Enumeration
