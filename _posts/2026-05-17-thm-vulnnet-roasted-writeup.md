@@ -26,7 +26,7 @@ finish it off. Great room for practising the AD attack fundamentals in order.
 The full chain: anonymous SMB shares → employee names → RID brute force →
 real usernames → AS-REP Roast → Kerberoast → WinRM shell → SYSVOL snooping
 → hardcoded creds → secretsdump → domain admin.
----
+
 
 ## Enumeration
 
@@ -131,7 +131,7 @@ Tony Skid
 Johnny Leet
 ```
 
-Now we need the actual AD usernames..i almost wanted to try using a tool called username-anarchy...works pretty much like OneRuleToThemAll and would mutate the usernames into different possibiliteis and try it.
+Now we need the actual AD usernames..i almost wanted to try using a tool called username-anarchy...works pretty much like OneRuleToThemAll and would mutate the usernames into different possibilities and try it.
 But we already have the guest account so no need.
 
 ---
