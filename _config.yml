@@ -37,7 +37,7 @@ plugins:
 author:
   name   : "0x5h4q"
   avatar : "/assets/images/MOON.jpg"
-  bio    : "PJPT | HTB | Top 6% THM | Arch"
+  bio    : "PJPT | HTB | Top 6% THM | PicoCTF | Overthewire"
   location: "Nigeria"
   links:
     - label: "GitHub"
