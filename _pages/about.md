@@ -9,7 +9,7 @@ I'm 0x5h4q — an 18-year-old self-taught security
 researcher with a focus on penetration testing. 
 No bootcamp, no professor. Just me, a laptop, and 
 a need to understand how things break. 
-(I use Arch Linux by the way... haha <._.>)
+(I use Arch btw... haha <._.>)
 
 Everything I know comes from hands-on learning 
 outside of my formal university curriculum.
