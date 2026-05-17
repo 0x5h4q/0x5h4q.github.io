@@ -3,6 +3,82 @@ permalink: /about/
 title: "About"
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
+# whoami
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+I'm 0x5h4q — an 18-year-old self-taught security 
+researcher with a focus on penetration testing. 
+No bootcamp, no professor. Just me, a laptop, and 
+a need to understand how things break. 
+(I use Arch Linux by the way... haha <._.>)
+
+Everything I know comes from hands-on learning 
+outside of my formal university curriculum.
+
+---
+
+## Experience
+
+I've spent the past year and a half across 
+HackTheBox, TryHackMe, PortSwigger Web Academy, 
+and PicoCTF — building real skills through 
+real challenges.
+
+**Active Directory & Internal Pentesting**  
+My HackTheBox work focuses on machines that 
+replicate real corporate threat scenarios — 
+Active Directory exploitation, credential 
+harvesting via SSH honeypots, ACL abuse, 
+and network enumeration.
+
+**Web Application Security**  
+Through PortSwigger Web Academy I've worked 
+hands-on through the OWASP Top 10, building 
+a foundation for bug bounty hunting.
+
+**CTF & Fundamentals**  
+PicoCTF sharpened my fundamentals across binary 
+exploitation, file forensics, cryptography, 
+and reverse engineering.
+
+**Scripting & Automation**  
+Python and Bash for security tooling and automation.
+
+---
+
+## Hardware
+
+Built and flashed a custom **ESP32 Marauder** 
+device from scratch — hands-on experience with 
+wireless attack frameworks and embedded hardware.
+
+---
+
+## Tools I've Written
+
+A few offensive tools on my GitHub:
+
+- **DNS Enumeration Tool** — Python, comprehensive 
+  DNS record lookups with error handling
+- **Keylogger** — Screenshot capability, process 
+  hiding, keystroke logging to file
+
+---
+
+## Certifications & Stats
+
+| | |
+|---|---|
+| PJPT | Practical Junior Penetration Tester |
+| TryHackMe | Top 6% globally · 100+ labs |
+| HackTheBox | VIP+ · Medium machines |
+| PicoCTF | Active competitor |
+
+---
+
+## Contact
+
+- **GitHub:** [github.com/0x5h4q](https://github.com/0x5h4q)
+
+---
+
+*Breaking things. Writing about it. Repeat.*
