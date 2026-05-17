@@ -36,20 +36,32 @@ plugins:
 
 author:
   name   : "0x5h4q"
-  avatar : "/assets/images/MOON.jpg"
+  avatar : "/assets/images/bio-photo.jpg"
   bio    : "PJPT | HTB | Top 6% THM | Arch"
   location: "Nigeria"
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/0x5h4q"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/daniel-bolaji-busola-ab42b2213/"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:princeheritage1@gmail.com"
 
 footer:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/0x5h4q"
-
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/daniel-bolaji-busola-ab42b2213/"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:princeheritage1@gmail.com"
+      
 defaults:
   - scope:
       path: ""
