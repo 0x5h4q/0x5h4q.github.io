@@ -37,7 +37,7 @@ plugins:
 author:
   name   : "0x5h4q"
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "Security researcher | PJPT | Top 6% THM | HTB | I use Arch btw"
+  bio    : "PJPT | HTB | Top 6% THM | Arch"
   location: "Nigeria"
   links:
     - label: "GitHub"
