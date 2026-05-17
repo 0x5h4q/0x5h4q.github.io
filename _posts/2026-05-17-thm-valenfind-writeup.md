@@ -235,7 +235,7 @@ sqlite3 valenfind_leak.db
 
 sqlite> SELECT username, password FROM users;
 ```
-![description](/assets/images/cupid8.png)
+![description](/assets/images/cupid9.png)
 
 There it was. Cupid's password. In plaintext.
 Just there waiting to be claimed.
