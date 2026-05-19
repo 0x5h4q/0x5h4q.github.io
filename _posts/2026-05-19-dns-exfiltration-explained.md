@@ -6,8 +6,6 @@ tags: [dns, exfiltration, data-theft, network-security, blue-team, detection, mi
 classes: wide
 ---
 
-# DNS Exfiltration — Stealing Data Through the One Protocol Nobody Blocks
-
 I want to talk about one of my favourite "wait, that actually works?" attacks. Not favourite because it's complex(quite the contrary really), favourite because it abuses something so fundamental. That thing is DNS. And the attack is DNS exfiltration.
 
 ---
@@ -23,8 +21,10 @@ This lookup process is called a DNS query and happens constantly. Every website 
 Attackers noticed this. If there's one protocol you can count on being allowed out of a secured locked-down network, it's DNS.
 
 ---
-![why?](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzBxMzJsOXJ1dDF4cnlmdHhzYmhmOWJjcDVwc2Fza3p6bXcxemdyciZlcD12MV9naWZzX3NlYXJjaCZjdD1n/cPKWZB2aaB3rO/giphy.gif)
-
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzBxMzJsOXJ1dDF4cnlmdHhzYmhmOWJjcDVwc2Fza3p6bXcxemdyciZlcD12MV9naWZzX3NlYXJjaCZjdD1n/cPKWZB2aaB3rO/giphy.gif" 
+     style="width: 100%; height: auto;" 
+     alt="description">
+     
 ## How the Attack Actually Works
 
 Here's the creative part that got me when I first understood it.
@@ -73,7 +73,7 @@ You can't block DNS. That's just the end of the discussion for most organisation
 
 A typical large network generates millions of DNS queries every day from hundreds of machines. Individual malicious queries are invisible in that noise unless you're specifically looking for the patterns. And most security teams aren't monitoring DNS with anywhere near the same attention they give HTTP traffic or email.
 
-Tools like **[DNScat2](https://github.com/iagox86/dnscat2)** take this further and build a full C2 (Command and Control channel over DNS — an attacker can run commands on a compromised machine entirely through DNS queries, never touching HTTP or any more visible protocol. **[IODINE](https://github.com/yarrick/iodine)** goes even further and tunnels full IP traffic over DNS, essentially a VPN through your phone book. **[Cobalt Strike](https://www.cobaltstrike.com/)** — one of the most widely used (and abused) pentesting frameworks — has built-in DNS beacon functionality specifically because DNS tends to slip past detection.
+Tools like **[DNScat2](https://github.com/iagox86/dnscat2)** take this further and build a full C2 (Command and Control channel) over DNS. An attacker can run commands on a compromised machine entirely through DNS queries, never touching HTTP or any more visible protocol. **[IODINE](https://github.com/yarrick/iodine)** goes even further and tunnels full IP traffic over DNS, essentially a VPN through your phone book. **[Cobalt Strike](https://www.cobaltstrike.com/)**, one of the most widely used  pentesting frameworks has built-in DNS beacon functionality specifically because DNS tends to slip past detection.
 
 For further breakdown on the MITRE ATT&CK technique page for DNS exfiltration: [MITRE ATT&CK T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 
