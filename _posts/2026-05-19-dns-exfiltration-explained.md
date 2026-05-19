@@ -73,7 +73,9 @@ You can't block DNS. That's just the end of the discussion for most organisation
 
 A typical large network generates millions of DNS queries every day from hundreds of machines. Individual malicious queries are invisible in that noise unless you're specifically looking for the patterns. And most security teams aren't monitoring DNS with anywhere near the same attention they give HTTP traffic or email.
 
-Tools like **DNScat2** take this further and build a full C2 (Command and Control channel over DNS — an attacker can run commands on a compromised machine entirely through DNS queries, never touching HTTP or any more visible protocol. **IODINE** goes even further and tunnels full IP traffic over DNS, essentially a VPN through your phone book. **Cobalt Strike** — one of the most widely used (and abused) pentesting frameworks — has built-in DNS beacon functionality specifically because DNS tends to slip past detection.
+Tools like **[DNScat2](https://github.com/iagox86/dnscat2)** take this further and build a full C2 (Command and Control channel over DNS — an attacker can run commands on a compromised machine entirely through DNS queries, never touching HTTP or any more visible protocol. **[IODINE](https://github.com/yarrick/iodine)** goes even further and tunnels full IP traffic over DNS, essentially a VPN through your phone book. **[Cobalt Strike](https://www.cobaltstrike.com/)** — one of the most widely used (and abused) pentesting frameworks — has built-in DNS beacon functionality specifically because DNS tends to slip past detection.
+
+For further breakdown on the MITRE ATT&CK technique page for DNS exfiltration: [MITRE ATT&CK T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 
 ---
 
@@ -109,7 +111,7 @@ The patterns are detectable if you're watching for them.
 
 **Query rate per destination** matters too. Normal browsing spreads DNS queries across many different domains. Exfiltration sends a high volume of queries to one specific domain in a short window. If a single machine fires 200 queries to an obscure domain in 30 seconds, that's not browsing behaviour.
 
-**Entropy analysis** is more sophisticated but more reliable. Base64-encoded data looks statistically random because it essentially is. Tools like RITA (Real Intelligence Threat Analytics) [RITA (Real Intelligence Threat Analytics)](https://github.com/activecountermeasures/rita) can score the randomness of DNS subdomains and flag anything that looks too random to be a real hostname.
+**Entropy analysis** is more sophisticated but more reliable. Base64-encoded data looks statistically random because it essentially is. Tools like [RITA (Real Intelligence Threat Analytics)](https://github.com/activecm/rita-legacy) can score the randomness of DNS subdomains and flag anything that looks too random to be a real hostname.
 
 **Baseline deviation** catches what rules miss. If a machine has never queried `.xyz` domains before and suddenly makes hundreds of queries to one, the change itself is the signal — regardless of whether the domain appears on any threat list.
 
@@ -119,7 +121,7 @@ The patterns are detectable if you're watching for them.
 
 Detection tells you when it's happening. Mitigation makes it harder to do in the first place.
 
-The most effective control is **forcing all DNS traffic through internal resolvers**. If every machine on your network has to use your DNS server (and the firewall blocks any attempt to query external DNS servers directly), you get full visibility and control over all DNS traffic. An attacker trying to communicate with an external server they control has to go through your resolver — which is logged, filtered, and monitored.
+The most effective control is **forcing all DNS traffic through internal resolvers**. If every machine on your network has to use your DNS server (and the firewall blocks any attempt to query external DNS servers directly), you get full visibility and control over all DNS traffic. An attacker trying to communicate with an external server they control has to go through your resolver which is logged, filtered, and monitored.
 
 **DNS filtering** builds on that. Services like Cisco Umbrella maintain threat intelligence on domains associated with DNS tunnelling tools and malicious infrastructure. Queries to known-bad domains get blocked before they leave your network.
 
@@ -143,9 +145,9 @@ Next time you look at DNS traffic, it's not just phone book lookups. Someone mig
 
 If you want to actually do this rather than just read about it:
 
-- **TryHackMe — Data Exfiltration room**: Hands-on lab, you perform DNS exfiltration yourself across a realistic network environment. Also covers SSH, ICMP, and HTTP exfiltration.
-- **TryHackMe — DNS Manipulation**: Covers DNS exfiltration and tunnelling with packet capture analysis.
-- **HackTheBox — "Keep Tryin'" (retired Forensics challenge)**: PCAP analysis challenge involving DNS exfiltration and RC4 decryption. Defender-side perspective.
+- **[TryHackMe — Data Exfiltration](https://tryhackme.com/room/dataxexfilt)**: Hands-on lab, you perform DNS exfiltration yourself across a realistic network environment. Also covers SSH, ICMP, and HTTP exfiltration.
+- **[TryHackMe — DNS Manipulation](https://tryhackme.com/room/dnsmanipulation)**: Covers DNS exfiltration and tunnelling with packet capture analysis.
+- **[HackTheBox — Keep Tryin'](https://app.hackthebox.com/challenges/keep-tryin)**: PCAP analysis challenge involving DNS exfiltration and RC4 decryption. Defender-side perspective.
 
 ---
 
