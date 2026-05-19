@@ -385,6 +385,7 @@ DCSync mimics domain controller replication —
 much quieter and often missed.
 
 ---
-![Domain Pwned](https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eDVncXVlbmxocmhsa2I3ZHRma3BueXRkaXJvYzFib2pibDhpdDJqZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/bk8UGCysurqC2gmJ0o/giphy.gif)
-
+<img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eDVncXVlbmxocmhsa2I3ZHRma3BueXRkaXJvYzFib2pibDhpdDJqZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/bk8UGCysurqC2gmJ0o/giphy.gif" 
+     style="width: 100%; height: auto;" 
+     alt="description">
 *Written by 0x5h4q | 0x5h4q.github.io*
