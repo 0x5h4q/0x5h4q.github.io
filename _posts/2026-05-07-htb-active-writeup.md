@@ -141,8 +141,9 @@ And just like that we got a `cpassword` field for `SVC_TGS`.
 
 _Sidenote_: This was a public cve that microsoft already patched(MS14-025). Meaning if this exploit were to work on your systems you might have to call in your sysadmin on monday morning
 
-![description](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHBvb2F1bW1xbXJtMnlzMWdremZ5eXEzaDZ0bG42cGZldXpybmd1YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JG2w01ZijEIFEuh5Dg/giphy.gif)
-
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHBvb2F1bW1xbXJtMnlzMWdremZ5eXEzaDZ0bG42cGZldXpybmd1YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JG2w01ZijEIFEuh5Dg/giphy.gif" 
+     style="width: 100%; height: auto;" 
+     alt="description">
 Decrypt it with `gpp-decrypt`:
 
 ```bash
