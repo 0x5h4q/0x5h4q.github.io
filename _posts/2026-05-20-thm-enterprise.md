@@ -359,7 +359,6 @@ Think of it like using a visitor's badge to unlock a staff door. The visitor's b
 ```powershell
 type C:\Users\Administrator\Desktop\root.txt
 ```
-![description](/assets/images/ent24.png)
 
 **Root Flag** : THM{1a1fa94875421296331f145971ca4881} ✅
 
