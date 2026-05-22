@@ -223,7 +223,7 @@ From inside the fsmith winrm shell:
 ```powershell
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 ```
-![Registry AutoLogon](/assets/images/ego5.2.md)
+![Registry AutoLogon](/assets/images/ego5.png)
 ```
 DefaultDomainName    REG_SZ    EGOTISTICALBANK
 DefaultUserName      REG_SZ    EGOTISTICALBANK\svc_loanmanager
