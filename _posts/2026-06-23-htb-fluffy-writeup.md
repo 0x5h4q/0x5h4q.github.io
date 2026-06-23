@@ -431,8 +431,8 @@ The only thing that mattered was the PDF pointing at a CVE worth exploiting.
 On real engagements, shares are full of irrelevant data so train yourself to look for what points somewhere, not just what looks interesting.
 
 
-PS:I almost tried kerberoasting winrm and ca_svc...didn't work. Kerberoastable doesn't mean you get the password.
 ---
+PS:I almost tried kerberoasting winrm and ca_svc...didn't work. Kerberoastable doesn't mean you get the password...Also i realised i did show the passwords and hash despite putting REDACTED...haha(^_^)/
 
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcG1xYmNsYmVsc3NtMXAxdnVnYjQ0NWVydzBycHlwbmM2ZW5hd3BjbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MT5UUV1d4CXE2A37Dg/giphy.gif"
      style="width: 100%; height: auto;"
