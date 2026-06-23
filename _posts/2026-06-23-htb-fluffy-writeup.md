@@ -4,6 +4,9 @@ date: 2026-06-23
 categories: [HackTheBox, Active Directory]
 tags: [htb, active-directory, cve-2025-24071, shadow-credentials, esc16, ad-cs, certipy, bloodhound, bloodyad, windows]
 classes: wide
+<style>
+p { text-align: justify; }
+</style>
 header:
   image: /assets/images/fluffy.png
   teaser: /assets/images/fluffy.png
