@@ -1,4 +1,3 @@
-
 ---
 title: "HTB WingData — Lua Injection RCE, Hash Cracking & Tar Symlink to Root"
 date: 2026-06-23
