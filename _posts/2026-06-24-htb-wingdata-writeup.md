@@ -106,7 +106,7 @@ python3 52347.py -u http://ftp.wingdata.htb -c "hostname"
 ```
 ![RCE](/assets/images/WINGDATA/rce.png)
 
-RCE confirmed. The exploit executes one command at a time — not enough for proper enumeration. We need an interactive shell.
+RCE confirmed. The exploit executes one command at a time. Not enough for proper enumeration. We need an interactive shell.
 
 ---
 
@@ -139,7 +139,7 @@ PS:I found out there was another user other than wingftp by reading the passwd f
 
 ### Exploring the Wing FTP Installation
 
-We landed in `/opt/wftpserver` — the Wing FTP installation root. Started enumerating from where we actually were rather than guessing paths:
+We landed in `/opt/wftpserver` —> the Wing FTP installation root. Started enumerating from where we actually were rather than guessing paths:
 
 ```bash
 ls -la
@@ -157,7 +157,7 @@ webclient/
 wftpserver
 ```
 
-`Data/` is the obvious first place to check — that's where any application stores its configuration and user data.
+`Data/` is the obvious first place to check as that's where any application stores its configuration and user data.
 
 ```bash
 ls -la Data/
@@ -213,7 +213,7 @@ Hash extracted. A couple of things worth noting from the XML: the account is act
 
 ### Cracking the Hash
 
-Wing FTP uses a custom hash format — not raw SHA256. Mode 1400 failed. Mode 1410 is the correct one, and it needs the `:WingFTP` suffix appended as the salt:
+Wing FTP uses a custom hash format not raw SHA256. Mode 1400 failed. Mode 1410 is the correct one, and it needs the `:WingFTP` suffix appended as the salt:
 
 ```bash
 echo '32940defd3c3ef70a2dd44a5301ff984c4742f0baae76ff5b8783994f8a503ca:WingFTP' > wacky.hash
@@ -339,16 +339,16 @@ Vhost link from main site → ftp.wingdata.htb (Wing FTP Server v7.4.3)
 ## What Did We Learn?
 
 **1. Page footers leak version numbers**  
-Wing FTP displayed its exact version on the login page. That one string led directly to the right exploit with no guessing. Always read the full page — headers, footers, comments, meta tags.
+Wing FTP displayed its exact version on the login page. That one string led directly to the right exploit with no guessing. Always read the full page;headers, footers, comments, meta tags.
 
 **2. Enumerate from where you land**  
-We were already in `/opt/wftpserver`. The `Data/` folder was right there. Proper enumeration of the application's own directory structure found the credentials naturally — no guessing, no prior knowledge of the path required. Work with what the filesystem shows you.
+We were already in `/opt/wftpserver`. The `Data/` folder was right there. Proper enumeration of the application's own directory structure found the credentials naturally not guessing, no prior knowledge of the path required. Work with what the filesystem shows you.
 
 **3. Quote issues in injections need simpler payloads**  
 Bash reverse shells with nested quotes broke the Lua injection context. `nc -e /bin/bash` has no quoting complexity and worked cleanly. When a payload fails due to character handling, simplify before assuming the vulnerability doesn't work.
 
 **4. Custom hash formats need the right Hashcat mode**  
-Mode 1400 is raw SHA256. Mode 1410 is SHA256 with a salt — Wing FTP specifically uses `:WingFTP` as the salt. Using the wrong mode wastes time and gives false negatives. When a hash doesn't crack on common modes, look up the application's specific format before assuming the password isn't in the wordlist.
+Mode 1400 is raw SHA256. Mode 1410 is SHA256 with a salt. Wing FTP specifically uses `:WingFTP` as the salt. Using the wrong mode wastes time and gives false negatives. When a hash doesn't crack on common modes, look up the application's specific format before assuming the password isn't in the wordlist.
 
 **5. Sudo wildcards are dangerous**  
 `restore_backup_clients.py *` with NOPASSWD means we control the arguments. Even if we couldn't modify the script itself, the wildcard let us point it at a malicious archive. Wildcards in sudo rules deserve scrutiny every time.
@@ -357,11 +357,11 @@ Mode 1400 is raw SHA256. Mode 1410 is SHA256 with a salt — Wing FTP specifical
 Python's tarfile module follows symlinks by default during extraction. Any script that extracts archives with elevated privileges without explicitly checking for path traversal or symlink attacks is a privesc waiting to happen. This pattern shows up constantly in backup and restore tooling.
 
 **7. Password reuse from FTP to SSH is real**  
-wacky's FTP password worked for SSH without modification. Always try extracted credentials against SSH — it's the most common lateral movement path on Linux boxes.
+wacky's FTP password worked for SSH without modification. Always try extracted credentials against SSH as it's the most common lateral movement path on Linux boxes^_^.
 
 ---
 
-<img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eDVncXVlbmxocmhsa2I3ZHRma3BueXRkaXJvYzFib2pibDhpdDJqZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/bk8UGCysurqC2gmJ0o/giphy.gif"
+<img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZDJ0aTRocnBjcmI5ZDdsYml1NXNtNXp1dGw1cXJ0ZTFwcm9qNDJxMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/dgrx6wVmdRbSo/giphy.gif"
      style="width: 100%; height: auto;"
      alt="pwned">
 
