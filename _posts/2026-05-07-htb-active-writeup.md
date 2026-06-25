@@ -5,6 +5,9 @@ categories: [HackTheBox, Active Directory]
 tags: [htb, active-directory, smb, gpp, kerberoasting, windows]
 layout: single
 classes: wide
+header:
+  image: /assets/images/active.png
+  teaser: /assets/images/active.png
 author_profile: true
 ---
 
