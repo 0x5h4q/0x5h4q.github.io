@@ -4,6 +4,9 @@ date: 2026-05-22
 categories: [HackTheBox, Active Directory]
 tags: [htb, active-directory, as-rep-roasting, autologon, registry, dcsync, bloodhound, pass-the-hash, windows]
 classes: wide
+header:
+  image: /assets/images/sauna.png
+  teaser: /assets/images/sauna.png
 ---
 
 # HTB Sauna
