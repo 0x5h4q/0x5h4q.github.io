@@ -25,7 +25,7 @@ p { text-align: justify; }
 
 ## Overview
 
-Voleur is a Windows DC box where NTLM is completely disabled and every single tool needs Kerberos tickets(This was quite something for me and i really enjoyed this box(^o^)丿 ). What makes this box stand out is that someone on the IT team stored a password-protected Excel spreadsheet on an internal share that documents every service account password, every user permission, and even notes about who to talk to for what. That spreadsheet is the blueprint for the entire chain. From there it's Kerberoasting, tombstone restoration, DPAPI decryption, WSL pivot, and a secretsdump from a backup of NTDS.dit.
+Voleur is a Windows DC box where NTLM is completely disabled and every single tool needs Kerberos tickets(This was quite something for me and i really enjoyed this box). What makes this box stand out is that someone on the IT team stored a password-protected Excel spreadsheet on an internal share that documents every service account password, every user permission, and even notes about who to talk to for what. That spreadsheet is the blueprint for the entire chain. From there it's Kerberoasting, tombstone restoration, DPAPI decryption, WSL pivot, and a secretsdump from a backup of NTDS.dit.
 
 ---
 
