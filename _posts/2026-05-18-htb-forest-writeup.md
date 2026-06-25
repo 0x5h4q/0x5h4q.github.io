@@ -4,6 +4,9 @@ date: 2026-05-18
 categories: [HackTheBox, Active Directory]
 tags: [htb, active-directory, as-rep-roasting, bloodhound, dcsync, exchange, writedacl, pass-the-hash, windows]
 classes: wide
+header:
+  image: /assets/images/forest.png
+  teaser: /assets/images/forest.png
 ---
 
 # HTB Forest
