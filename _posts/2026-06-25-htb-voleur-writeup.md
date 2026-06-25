@@ -137,7 +137,7 @@ Using LibreOffic Calc, we view the document
 
 
 ### What's Inside
-![Excel](/assets/images/VOLEUR/spider.png)
+![Excel](/assets/images/VOLEUR/excel.png)
 
 The spreadsheet documented the entire support team structure, permissions, and credentials:
 
