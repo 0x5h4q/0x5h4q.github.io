@@ -63,7 +63,7 @@ The main page at `https://fireflow.htb` is a "Task Force Nightfall" intelligence
 https://flow.fireflow.htb/playground/7d84d636-af65-42e4-ac38-26e867052c25
 ```
 
-That's a Langflow instance — an open-source AI workflow builder. Version check:
+That's a Langflow instance (an open-source AI workflow builder). Version check:
 
 ```bash
 curl -k https://flow.fireflow.htb/api/v1/version
@@ -85,7 +85,7 @@ The `/api/v1/build_public_tmp/{flow_id}/flow` endpoint builds public flows witho
 
 ### Building the Payload
 
-Twenty minutes of failed attempts came down entirely to quote escaping across four nested layers: curl, JSON, Python, and bash. The fix was simple — write the payload to a file and use `-d @file.json`:
+Twenty minutes of failed attempts came down entirely to quote escaping across four nested layers: curl, JSON, Python, and bash. The fix was simple. Write the payload to a file and use `-d @file.json`:
 
 ```bash
 cat > exploit.json << 'EOF'
@@ -188,7 +188,7 @@ cat ~/.mcp/config.json
 }
 ```
 
-The MCP (Model Context Protocol) server on port 30080 allows registering custom tools — Python code that executes server-side. If we can register a tool, we get RCE inside the MCP pod.
+The MCP (Model Context Protocol) server on port 30080 allows registering custom tools like Python code that executes server-side. If we can register a tool, we get RCE inside the MCP pod.
 
 ---
 
