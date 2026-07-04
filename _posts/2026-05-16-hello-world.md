@@ -1,13 +1,13 @@
 ---
 title: "Hello World — Who is 0x5h4q?"
-date: 2026-05-15
+date: 2026-05-05
 categories: [General]
 tags: [introduction, about]
 ---
 
 n0 pl4c3 l1k3 127.0.0.1
 
-I'm 0x5h4q — 18 yr old security researcher, 
+I'm 0x5h4q ( º _ ºノ)... 19 yr old security researcher, 
 HTB player, CTF enthusiast, and yes, 
 I use Arch btw[<._.>]
 
@@ -23,7 +23,7 @@ This is my space for growth. It helps me and I hope it helps you too!
 - HackTheBox machines
 - Tryhackme
 - HackSmarter (Tyler Ramsbey)
-- CTF challenges (PicoCTF, Africa CyberFest)
+- CTF challenges (PicoCTF, HTB, Africa CyberFest)
 - Web application pentesting
 - Active Directory exploitation
 - Breaking things generally
@@ -32,7 +32,7 @@ This is my space for growth. It helps me and I hope it helps you too!
 
 - PJPT certified
 - TryHackMe Top 6% globally
-- HackTheBox Lvl 20 (currently)
+- HackTheBox Lvl 48 (currently)
 - 100+ THM labs completed
 
 Stay tuned and follow along for security concepts breakdown (=_=)
