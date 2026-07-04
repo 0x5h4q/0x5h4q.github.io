@@ -68,7 +68,7 @@ admin            [200]
 
 `/admin` redirects to `/admin/login` --> the CraftCMS control panel. The login page confirms the version: **CraftCMS 5.6.16**.
 
-[Login](/assets/images/ORION/login.png)
+![Login](/assets/images/ORION/login.png)
 
 That version is vulnerable to CVE-2025-32432.
 
@@ -117,7 +117,7 @@ CraftCMS stores database configuration in a `.env` file at the project root:
 cd /var/www/html/craft
 cat .env
 ```
-[DB](/assets/images/ORION/db.png)
+![DB](/assets/images/ORION/db.png)
 
 ```ini
 CRAFT_DB_DRIVER=mysql
@@ -136,7 +136,7 @@ One file. Database credentials in plaintext. Always check `.env` first.
 mysql -u root -pSuperSecureCraft123Pass! orion \
   -e "SELECT username,email,password FROM users;"
 ```
-[HASH](/assets/images/ORION/admin.png)
+![HASH](/assets/images/ORION/admin.png)
 
 ```
 admin | adam@orion.htb | $2y$13$e9zuohgFZzGtbQalcn9Mz.5PJbjxobO0GMbXo8NHp3P/B42LUg0lS
