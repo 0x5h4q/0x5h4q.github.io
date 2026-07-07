@@ -34,8 +34,7 @@ TombWatcher chains together multiple AD permission abuses in a clean escalation 
 ### Nmap
 
 ```bash
-ports=$(nmap -p- --min-rate=1000 -T4 10.129.232.167 | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
-nmap -p$ports -sC -sV 10.129.232.167
+nmap -sV -sS -T4 -A -Pn 10.129.232.167
 ```
 
 ```
