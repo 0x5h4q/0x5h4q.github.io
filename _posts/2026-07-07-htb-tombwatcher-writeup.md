@@ -1,4 +1,3 @@
-
 ---
 title: "HTB TombWatcher — WriteSPN, gMSA Abuse, AD Recycle Bin & ESC15 to Domain Admin"
 date: 2026-07-07
