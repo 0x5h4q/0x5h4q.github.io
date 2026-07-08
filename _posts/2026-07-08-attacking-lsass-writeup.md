@@ -5,8 +5,8 @@ categories: [HackSmarter, Windows, Blue Team]
 tags: [lsass, credential-dumping, pypykatz, kvcforensic, procdump, lolbins, credential-guard, runasppl, windows-server-2025, dfir, offense-defense]
 classes: wide
 header:
-  image: /assets/images/LSASS/banner.png
-  teaser: /assets/images/LSASS/banner.png
+  image: /assets/images/LSASS/ban.png
+  teaser: /assets/images/LSASS/ban.png
 ---
 
 <style>
@@ -26,7 +26,7 @@ p { text-align: justify; }
 
 Most AD compromises follow the same pattern after initial foothold: land on a box, dump LSASS, extract hashes or plaintext passwords, move laterally. LSASS is the crown jewel of post-exploitation on Windows. This lab covers three different methods to dump it, two tools to parse it offline, and the three defensive controls that actually stop these attacks.
 
-The reason LSASS is such a high-value target is simple: every user who logs into a Windows machine leaves credential material behind in LSASS memory. Pull that memory and you pull their secrets — NTLM hashes for pass-the-hash, Kerberos tickets for pass-the-ticket, and sometimes cleartext passwords if legacy authentication is enabled.
+The reason LSASS is such a high-value target is simple: every user who logs into a Windows machine leaves credential material behind in LSASS memory. Pull that memory and you pull their secrets : NTLM hashes for pass-the-hash, Kerberos tickets for pass-the-ticket, and sometimes cleartext passwords if legacy authentication is enabled.
 
 ---
 
@@ -34,7 +34,7 @@ The reason LSASS is such a high-value target is simple: every user who logs into
 
 **LSASS** (Local Security Authority Subsystem Service) is the Windows process that enforces security policy and handles all user authentication. It is the gatekeeper for every logon session on the machine.
 
-When a user authenticates — whether interactively, over the network, or via a service — the credentials are processed and cached in LSASS memory. This includes:
+When a user authenticates i.e whether interactively, over the network, or via a service, the credentials are processed and cached in LSASS memory. This includes:
 
 - **NTLM hashes** — used for pass-the-hash attacks and offline cracking
 - **Kerberos tickets** — used for pass-the-ticket and silver/golden ticket attacks
@@ -63,7 +63,7 @@ This method is low stealth — GUI artifacts are logged, the action is visible t
 
 ### Method 2: ProcDump (Sysinternals)
 
-ProcDump is a Microsoft-signed Sysinternals tool, which is its main advantage — it is often whitelisted by antivirus because it is a legitimate Microsoft utility.
+ProcDump is a Microsoft-signed Sysinternals tool, which is its main advantage as it is often whitelisted by antivirus because it is a legitimate Microsoft utility.
 
 ```powershell
 # Download from Microsoft
@@ -86,7 +86,7 @@ Medium stealth. The binary is legitimate and signed but it was downloaded from t
 
 ### Method 3: Native Binaries (LOLBins)
 
-The stealthiest method. Uses only Windows built-in binaries — nothing new is brought onto the machine, no external downloads, no signed-but-suspicious tools.
+The stealthiest method. Uses only Windows built-in binaries, nothing new is brought onto the machine, no external downloads, no signed-but-suspicious tools.
 
 ```powershell
 # Get LSASS PID
@@ -163,7 +163,7 @@ Output includes NTLM hashes, Kerberos keys (AES256, AES128, DES), cleartext pass
 
 Pypykatz and Mimikatz use hardcoded memory offsets and structure signatures that become outdated as Windows releases new builds. Windows Server 2025 introduced changes that break them.
 
-KvcForensic uses a JSON template file for its signatures — when Microsoft changes memory structures, you update a JSON file instead of waiting for a new tool release.
+KvcForensic uses a JSON template file for its signatures. When Microsoft changes memory structures, you update a JSON file instead of waiting for a new tool release.
 
 ```bash
 # Install
@@ -241,7 +241,7 @@ This is a significant uplift in protection. The vast majority of commodity crede
 
 ### 3. Enable Credential Guard
 
-Credential Guard uses Virtualization-Based Security (VBS) to move NTLM hashes and Kerberos tickets into an isolated virtual container — a separate secure process called the Isolated LSA. The main operating system process cannot read the secrets held there.
+Credential Guard uses Virtualization-Based Security (VBS) to move NTLM hashes and Kerberos tickets into an isolated virtual container i.e a separate secure process called the Isolated LSA. The main operating system process cannot read the secrets held there.
 
 ```powershell
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" `
@@ -255,9 +255,9 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" `
 | 1 | Enabled with UEFI lock (more persistent, harder to disable) |
 | 2 | Enabled without UEFI lock |
 
-Critical distinction: Credential Guard does NOT prevent creating a dump file. All three attack methods will still produce a `.dmp` file on disk. What changes is that when you parse the dump, the credential fields contain garbage — encrypted or zero values. The secrets never existed in the main LSASS process memory to begin with.
+Critical distinction: Credential Guard does NOT prevent creating a dump file. All three attack methods will still produce a `.dmp` file on disk. What changes is that when you parse the dump, the credential fields contain garbage (~_~)...encrypted or zero values. The secrets never existed in the main LSASS process memory to begin with.
 
-This is an important nuance for defenders. Detections should not just look for the act of dumping — they should also monitor for the conditions that make dumps useful (Credential Guard disabled, PPL disabled, WDigest enabled).
+This is an important nuance for defenders. Detections should not just look for the act of dumping but also monitor for the conditions that make dumps useful (Credential Guard disabled, PPL disabled, WDigest enabled).
 
 ---
 
@@ -314,10 +314,10 @@ Every interactive logon leaves credential material in LSASS. In Active Directory
 `rundll32.exe` and `comsvcs.dll` are already present on every Windows installation. No download, no external binary, no new file signature. The comsvcs MiniDump technique is specifically designed to be difficult to detect because it uses the exact same Windows API that legitimate memory dump tools use.
 
 **3. Offline parsing is always safer than on-target execution**  
-Running Mimikatz or Pypykatz on the target machine is loud — AV detects the binary, EDR monitors the API calls. Transferring the dump to Kali and parsing offline avoids all of that. The dump file itself is just memory — not inherently malicious until you extract something from it.
+Running Mimikatz or Pypykatz on the target machine is loud —> AV detects the binary, EDR monitors the API calls. Transferring the dump to Kali and parsing offline avoids all of that. The dump file itself is just memory not inherently malicious until you extract something from it.
 
 **4. Windows Server 2025 breaks older parsing tools**  
-Pypykatz failed against the Server 2025 dump. KvcForensic with its JSON template approach handled it. When tools fail, the answer is usually a newer or more adaptable tool — not giving up. Knowing the alternative tool exists is what matters.
+Pypykatz failed against the Server 2025 dump. KvcForensic with its JSON template approach handled it. When tools fail, the answer is usually a newer or more adaptable tool not giving up:'(. Knowing the alternative tool exists is what matters.
 
 **5. Modern Windows SMB requires authentication for transfers**  
 Guest SMB access is disabled by default on Server 2025. impacket-smbserver needs `-user` and `-pass` or the file transfer silently fails.
