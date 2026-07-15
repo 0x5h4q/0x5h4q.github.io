@@ -62,7 +62,8 @@ In a real fintech engagement, this cuts reconnaissance time from days to minutes
 
 ![Admin and internal endpoints exposed in documentation](/assets/images/VULNBANK/admin-endpoint.png)
 
-![Internal Endpoints exposed in the documentation](assets/images/VULNBANK/internal-ssrf.png)
+![Internal Endpoints exposed in the documentation](/assets/images/VULNBANK/internal-ssrf.png)
+
 ### Impact
 
 Complete API surface mapping without authentication. An attacker discovers hidden admin endpoints, SSRF targets, and AI integration details before sending a single crafted request.
