@@ -13,11 +13,10 @@ header:
 p { text-align: justify; }
 </style>
 
-# VulnBank Series #1 — Recon, SQLi Auth Bypass & JWT Forgery
 
 **Target:** VulnBank — Deliberately Vulnerable Banking Application  
 **Series:** VulnBank Pentest Mini-Series  
-**Post:** 1 of 10  
+**Post:** 1 of others\-_-\
 **Scope:** `http://localhost:5000`
 
 ---
@@ -122,6 +121,7 @@ The `OR '1'='1'` condition is always true. The query returns the first user in t
 ### Impact
 
 An unauthenticated attacker gains complete administrative control over the banking platform. From that position, every other vulnerability in the application becomes accessible. This single finding enables full compromise of all customer accounts, transaction history, and virtual card data. In a production fintech environment, this is game over.
+
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXRqeGF4YTJ5ZnFvNm1qY2tnemlramttdzg3bTV1a3lpNW54bDVkbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/LXbVibea2FMoIlqnhv/giphy.gif"
      style="width: 100%; height: auto;"
      alt="pwned">
