@@ -13,7 +13,6 @@ header:
 p { text-align: justify; }
 </style>
 
-# VulnBank Series #2 — BOLA, Mass Assignment, Broken Transaction Logic & Weak Password Reset
 
 **Target:** VulnBank — Deliberately Vulnerable Banking Application  
 **Series:** VulnBank Pentest Mini-Series  
