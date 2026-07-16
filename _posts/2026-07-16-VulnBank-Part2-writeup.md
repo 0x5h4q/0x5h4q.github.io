@@ -271,7 +271,7 @@ Sent money to another account and the platform reversed the transaction directio
 ![Zero amount transfer accepted with no error](/assets/images/VULNBANK/zero-amount.png)
 
 **Transaction History of both Users:**  
-![HISTORY ](/assets/images/VULNBANK/trasanc-history.png)
+![HISTORY ](/assets/images/VULNBANK/transac-history.png)
 
 ### Impact
 
