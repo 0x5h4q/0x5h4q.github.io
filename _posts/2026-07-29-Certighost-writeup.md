@@ -164,7 +164,7 @@ The debug output at the moment it works:
 [*] GGWP
 ```
 
-[WAFFLES](/assets/images/hash.png)
+![WAFFLES](/assets/images/hash.png)
 
 ---
 
@@ -177,7 +177,7 @@ impacket-secretsdump -hashes aad3b435b51404eeaad3b435b51404ee:[REDACTED] 'KING.l
 
 krbtgt hash out. Full domain ownership. Every Kerberos ticket in the forest can now be forged, every account impersonated, and the access persists across password resets until krbtgt itself is rotated twice.
 
-[KRGBT](/assets/images/krgbt.png)
+![KRGBT](/assets/images/krgbt.png)
  
 ---
 
