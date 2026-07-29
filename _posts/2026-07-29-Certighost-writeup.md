@@ -24,6 +24,8 @@ p { text-align: justify; }
 
 ## Overview
 
+TODAY'S TOPIC IS WAFFLES!!! \(^o^)/ 
+
 Every few months something drops that makes the AD CS attack surface feel like it just got wider. Certipy and the ESC series taught the community to look for misconfigured templates, weak enrollment rights, manager approval left unchecked. The assumption across all of those was that something had to be wrong before you could exploit it.
 
 CVE-2026-54121, nicknamed Certighost, does not need anything to be wrong. No bad template, no excessive enrollment right, nothing misconfigured. It attacks the CA's own identity resolution logic directly, and on a default install, that logic already trusts the wrong thing.
@@ -59,7 +61,7 @@ From there the chain is short. PKINIT the cert to get Kerberos credentials for t
 
 ## Lab Setup
 
-Two VMs: a Windows Server 2025 box running AD DS and AD CS as an Enterprise Root CA (hostname WAFFLES, domain KING.local, CA name KING-WAFFLES-CA), and Kali as the attacker.
+Two VMs: a Windows Server 2025 box running AD DS and AD CS as an Enterprise Root CA (hostname WAFFLES, domain KING.local, CA name KING-WAFFLES-CA), and Kali as the attacker. (Waffles is a nickname for a special someone (✿◠‿◠) )
 
 Certighost specifically needs an Enterprise CA, not Standalone. The chase behavior is tied to domain-integrated cert issuance. Verify with:
 
