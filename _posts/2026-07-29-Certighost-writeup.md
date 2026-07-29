@@ -178,7 +178,7 @@ impacket-secretsdump -hashes aad3b435b51404eeaad3b435b51404ee:[REDACTED] 'KING.l
 krbtgt hash out. Full domain ownership. Every Kerberos ticket in the forest can now be forged, every account impersonated, and the access persists across password resets until krbtgt itself is rotated twice.
 
 [KRGBT](/assets/images/krgbt.png)
-
+ 
 ---
 
 ## A Note on the PoC Timeline
