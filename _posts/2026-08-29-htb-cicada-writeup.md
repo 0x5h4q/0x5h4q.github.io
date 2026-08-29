@@ -6,7 +6,7 @@ tags: [htb, active-directory, smb-enumeration, rid-brute-force, credential-reuse
 classes: wide
 header:
   image: /assets/images/CICADA/cicada.png
-teaser: /assets/images/CICADA/cicada.png
+  teaser: /assets/images/CICADA/cicada.png
 ---
 
 <style>
