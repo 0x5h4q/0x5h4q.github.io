@@ -1,4 +1,3 @@
-
 ---
 title: "HTB Cicada — Anonymous Share Leak, Guest RID-Brute & Backup Operators to Domain Admin"
 date: 2026-08-29
